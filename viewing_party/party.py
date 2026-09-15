@@ -92,18 +92,60 @@ def get_friends_unique_watched(user_data):
 
     return unique_movies
     
-    
-
-
-
-
-
-        
 # -----------------------------------------
 # ------------- WAVE 4 --------------------
 # -----------------------------------------
+def get_available_recs(user_data):
+    recommended_movies =[]
+    movies_list = get_friends_unique_watched(user_data)
+    for movie in movies_list:
+        if movie['host'] in user_data['subscriptions']:
+            recommended_movies.append(movie)
+    return recommended_movies
+
+
 
 # -----------------------------------------
 # ------------- WAVE 5 --------------------
 # -----------------------------------------
+def get_new_rec_by_genre(user_data):
+    recommeded_movies =[]
+    genre =get_most_watched_genre(user_data)
+    movie_list = get_friends_unique_watched(user_data)
+    for movie in movie_list:
+        if movie['genre'] == genre:
+            recommeded_movies.append(movie)
+    return recommeded_movies
+
+# def get_rec_from_favorites(user_data):
+#     recommended_movies =[]
+#     friends_watched_movies =[]
+#     friends = user_data['watched']
+#     for friend in friends:
+#         for movie in friend['watched']:
+#             if movie['title'] not in friends_watched_movies:
+#                 friends_watched_movies.append(movie['title'])
+
+#     for movies in user_data['favorites']:
+#         for movie in movies:
+#             if movie['title'] not in friends_watched_movies:
+#                     recommended_movies.append(movie)
+#     return recommended_movies
+
+def get_rec_from_favorites(user_data):
+    recommended_movies = []
+    friends_watched_movies = []
+
+    for friend in user_data['friends']:
+        for movie in friend['watched']:
+            if movie['title'] not in friends_watched_movies:
+                friends_watched_movies.append(movie['title'])
+
+    for movie in user_data['favorites']:
+        if movie['title'] not in friends_watched_movies:
+            recommended_movies.append(movie)
+
+    return recommended_movies
+
+
 
